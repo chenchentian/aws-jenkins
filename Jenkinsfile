@@ -22,7 +22,7 @@ pipeline {
             steps {
                echo 'Deploying....'
                sh 'pwd'
-               sh 'build-project.sh'
+               sh './build-project.sh'
             }
         }
     }
