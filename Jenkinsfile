@@ -1,10 +1,11 @@
 pipeline {
-    agent {
-            docker { image 'maven' }
-        }
+    agent none
     stages {
         stage('prepare') {
             steps {
+            agent {
+               docker { image 'maven' }
+                  }
                 echo 'Building..'
                 sh 'mvn  install'
             }
@@ -16,10 +17,10 @@ pipeline {
         }
         stage('Deploy') {
             steps {
+            agent {
+                 docker { image 'docker-compose' }
+                  }
                 echo 'Deploying....'
-                agent {
-                            docker { image 'docker-compose' }
-                        }
                 sh 'build-project.sh'
             }
         }
