@@ -17,7 +17,9 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-                sh 'docker pull docker-compose'
+                agent {
+                            docker { image 'docker-compose' }
+                        }
                 sh 'build-project.sh'
             }
         }
