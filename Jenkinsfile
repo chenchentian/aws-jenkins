@@ -1,11 +1,12 @@
 pipeline {
     agent {
-            docker { image 'node:7-alpine' }
+            docker { image 'maven' }
         }
     stages {
         stage('prepare') {
             steps {
                 echo 'Building..'
+                sh 'mvn  install'
             }
         }
         stage('Test') {
