@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Deploy') {
             agent {
-               docker {image 'docker-compose'}
+               docker {image 'keyopstech/docker-compose'}
             }
             steps {
                echo 'Deploying....'
