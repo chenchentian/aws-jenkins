@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('prepare') {
              agent {
-                 docker { image 'maven'
-                          }
+                 docker {
+                 image 'maven'
+                 args '-v /var/run/docker.sock:/var/run/docker.sock'
+                 }
              }
             steps {
                 echo 'Building..'
