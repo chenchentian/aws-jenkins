@@ -3,7 +3,9 @@ pipeline {
     stages {
         stage('prepare') {
              agent {
-                 docker { image 'maven' }
+                 docker { image 'maven'
+                          alwaysPull true
+                          }
              }
             steps {
                 echo 'Building..'
