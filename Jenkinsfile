@@ -1,10 +1,9 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('prepare') {
              agent {
                  docker { image 'maven'
-                          alwaysPull true
                           }
              }
             steps {
