@@ -7,3 +7,9 @@
         - uses: actions/checkout@v3
         - name: Build with Maven
           run: sh build.sh
+    deploy:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: deploy with java
+          run: sh deploy.sh
