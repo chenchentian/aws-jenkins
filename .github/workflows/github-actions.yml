@@ -8,8 +8,14 @@
         - name: Build with Maven
           run: sh build.sh
     deploy:
+      needs: build
       runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v3
-        - name: deploy with java
-          run: sh deploy.sh
+        - name: Set up JDK 11
+          uses: actions/setup-java@v3
+          with:
+            java-version: '11'
+            distribution: 'adopt'
+        - name: deploy project
+          run: java -jar ./target/demo-0.0.1-SNAPSHOT.jar
