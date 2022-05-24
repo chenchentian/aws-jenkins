@@ -20,5 +20,6 @@
         - name: deploy project
           run: |
            ls
+           mvn install
            cd target
            java -jar demo-0.0.1-SNAPSHOT.jar
