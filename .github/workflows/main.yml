@@ -62,7 +62,7 @@ jobs:
 
       - name: deploy
         run: |
-            ssh ${{secrets.USER}}@${{secret.TARGET_SERVER}}"
+            ssh ${{secrets.USER}}@${{secrets.TARGET_SERVER}}"
             java -jar ./target/demo-0.0.1-SNAPSHOT.jar
             "
 
