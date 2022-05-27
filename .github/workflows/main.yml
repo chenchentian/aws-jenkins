@@ -41,27 +41,27 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up java
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'adopt'
+        uses: actions/setup-java@v3
+        with:
+         java-version: '11'
+         distribution: 'adopt'
 
-        - name: build
-          run: mvn install
+      - name: build
+        run: mvn install
 
-        - name: Install ssh-key
-          run: |
-            mkdir -p ~/.ssh
-            echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
-            chmod 600 ~/.ssh/chenchentian.pem
-            ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
+      - name: Install ssh-key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
+          chmod 600 ~/.ssh/chenchentian.pem
+          ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
 
-        - name: cp
-          run: |
+      - name: cp
+        run: |
             rsync -v ./target/demo-0.0.1-SNAPSHOT.jar ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/target
 
-        - name: deploy
-          run: |
+      - name: deploy
+        run: |
             ssh ${{secret.USER}}@${{secret.TARGET_SERVER}}"
             java -jar ./target/demo-0.0.1-SNAPSHOT.jar
             "
