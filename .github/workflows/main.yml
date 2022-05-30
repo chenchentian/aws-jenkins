@@ -66,9 +66,6 @@ jobs:
           rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v demo-0.0.1-SNAPSHOT.jar ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
 
       - name: deploy
-        with:
-          user: ${{secrets.USER}
-          host: ${{secrets.TARGET_SERVER}}
         run: |
           cd ~/.ssh
           chmod 600  chenchentian.pem
