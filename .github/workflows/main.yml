@@ -54,7 +54,7 @@ jobs:
       - name: Build docker image
         run: docker build -t webapp .
 
-      - name: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -70,7 +70,6 @@ jobs:
         run: |
           docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
           docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
-          docker logout
 
 #      - name: Install ssh-key
 #        run: |
