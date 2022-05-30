@@ -66,7 +66,7 @@ jobs:
       - name: deploy
         run: |
           chmod 400 ~/.ssh/chenchentian.pem
-          ssh  -i " ~/.ssh/chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}}"
-          cd /home
-          java -jar demo-0.0.1-SNAPSHOT.jar
+          ssh  -i " ~/.ssh/chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
+            cd /home
+            java -jar demo-0.0.1-SNAPSHOT.jar
           "
