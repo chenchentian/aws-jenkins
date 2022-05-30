@@ -63,6 +63,7 @@ jobs:
         run: docker build -t webapp .
 
       - name: Publish docker image to ECR
+        uses: ItsKarma/aws-cli@v1.70.0
         run: |
           aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o5x4d0s9
           docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
