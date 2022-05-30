@@ -66,6 +66,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
 
       - name: Publish docker image to ECR
+        id: build-image
         run: |
           docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
           docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
