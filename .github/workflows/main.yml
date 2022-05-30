@@ -56,7 +56,6 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
           chmod 400 ~/.ssh/chenchentian.pem
-          ssh-keygen -f ~/.ssh/chenchentian.pem -p
           ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
 
       - name: copy
