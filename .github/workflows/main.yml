@@ -69,7 +69,10 @@ jobs:
         run: |
           cd ~/.ssh
           chmod 600  chenchentian.pem
-           chmod 600 demo-0.0.1-SNAPSHOT.jar
+          chmod 600 demo-0.0.1-SNAPSHOT.jar
           ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
+               cd ~/.ssh
+               ls
+               chmod 600 demo-0.0.1-SNAPSHOT.jar
                java -jar demo-0.0.1-SNAPSHOT.jar
           "
