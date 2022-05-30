@@ -1,9 +1,12 @@
-apt update
+# shellcheck disable=SC2164
+cd ~/.ssh
 
-apt install -y maven
+chmod 600  chenchentian.pem
 
-mvn install
+ssh  -i "chenchentian.pem"
 
-apt install -y openjdk-11-jdk
+cd ~/.ssh
 
-java -jar ./target/demo-0.0.1-SNAPSHOT.jar
+chmod 600 demo-0.0.1-SNAPSHOT.jar
+
+java -jar demo-0.0.1-SNAPSHOT.jar
