@@ -2,5 +2,5 @@ server:
   port: 8080
 spring:
   redis:
-    host: host.docker.internal
+    host: 18.140.57.38
     port: 6379
