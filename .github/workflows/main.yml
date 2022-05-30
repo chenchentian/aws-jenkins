@@ -75,5 +75,5 @@ jobs:
                java -jar demo-0.0.1-SNAPSHOT.jar;
           "
 
-      - name Delete ssh-key
+      - name: Delete ssh-key
         run: rm ~/.ssh/chenchentian.pem
