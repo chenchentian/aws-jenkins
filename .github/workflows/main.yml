@@ -51,29 +51,45 @@ jobs:
       - name: build
         run: mvn install
 
-      - name: Install ssh-key
+      - name: Install aws-credentials
         run: |
-          mkdir -p ~/.ssh
-          echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
-          chmod 600 ~/.ssh/chenchentian.pem
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/chenchentian.pem
-          ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
+          mkdir -p ~/.aws
+          echo "${{secrets.CREDENTIALS}}" > ~/.aws/credentials
+          chmod 600 ~/.ssh/credentials
 
-      - name: copy
+      - name: Build docker image
+        run: docker build -t webapp .
+
+      - name: Publish docker image to ECR
         run: |
-          cd target
-          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v demo-0.0.1-SNAPSHOT.jar ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
+          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o5x4d0s9
+          docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
+          docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
+          docker logout
 
-      - name: deploy
-        run: |
-          cd ~/.ssh
-          chmod 600  chenchentian.pem
-          ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
-               cd ~/.ssh;
-               chmod 600 demo-0.0.1-SNAPSHOT.jar;
-               nohup java -jar demo-0.0.1-SNAPSHOT.jar > logfile.log &
-          "
+#      - name: Install ssh-key
+#        run: |
+#          mkdir -p ~/.ssh
+#          echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
+#          chmod 600 ~/.ssh/chenchentian.pem
+#          eval "$(ssh-agent -s)"
+#          ssh-add ~/.ssh/chenchentian.pem
+#          ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
 
-      - name: Delete ssh-key
-        run: rm ~/.ssh/chenchentian.pem
+#      - name: copy
+#        run: |
+#          cd target
+#          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
+#
+#      - name: deploy
+#        run: |
+#          cd ~/.ssh
+#          chmod 600  chenchentian.pem
+#          ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
+#               cd ~/.ssh;
+#               chmod 600 docker-compose.yaml;
+#               docker compose up -d
+#          "
+#
+#      - name: Delete ssh-key
+#        run: rm ~/.ssh/chenchentian.pem
