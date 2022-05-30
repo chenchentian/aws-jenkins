@@ -62,18 +62,13 @@ jobs:
           aws-region: "us-east-1"
 
       - name: Login to ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@aaf69d68aa3fb14c1d5a6be9ac61fe15b48453a2
+        uses: aws-actions/amazon-ecr-login@v1
 
       - name: Publish docker image to ECR
-        id: build-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
+          docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
+
 
 #      - name: Install ssh-key
 #        run: |
