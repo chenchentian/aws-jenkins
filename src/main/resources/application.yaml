@@ -2,5 +2,5 @@ server:
   port: 8080
 spring:
   redis:
-    host: 18.140.57.38
+    host: 127.0.0.1
     port: 6379
