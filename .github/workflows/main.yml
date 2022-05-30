@@ -56,6 +56,8 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
           chmod 600 ~/.ssh/chenchentian.pem
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/chenchentian.pem
           ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
 
       - name: copy
