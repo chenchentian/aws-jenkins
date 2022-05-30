@@ -51,23 +51,19 @@ jobs:
       - name: build
         run: mvn install
 
-      - name: Install aws-credentials
-        run: |
-          mkdir -p ~/.aws
-          echo "${{secrets.CREDENTIALS}}" > ~/.aws/credentials
-          chmod 600 ~/.aws/credentials
-          echo "${{secrets.CONFIG}}" > ~/.aws/config
-          chmod 600 ~/.aws/config
-
       - name: Build docker image
         run: docker build -t webapp .
 
-      - name: Set up AWS-CLI
+      - name: login-ecr
         uses: ItsKarma/aws-cli@v1.70.0
+        with:
+          args: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o5x4d0s9
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
 
       - name: Publish docker image to ECR
         run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o5x4d0s9
           docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
           docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
           docker logout
