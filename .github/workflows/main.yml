@@ -70,8 +70,10 @@ jobs:
           cd ~/.ssh
           chmod 600  chenchentian.pem
           ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
-               cd ~/.ssh
-               ls
-               chmod 600 demo-0.0.1-SNAPSHOT.jar
-               java -jar demo-0.0.1-SNAPSHOT.jar
+               cd ~/.ssh;
+               chmod 600 demo-0.0.1-SNAPSHOT.jar;
+               java -jar demo-0.0.1-SNAPSHOT.jar;
           "
+
+      - name Delete ssh-key
+        run: rm ~/.ssh/chenchentian.pem
