@@ -88,13 +88,12 @@ jobs:
       - name: copy docker-compose file
         run: |
           rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
-
+          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v Dockerfile ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
       - name: deploy
         run: |
           cd ~/.ssh
           chmod 600  chenchentian.pem
           ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
-               docker pull public.ecr.aws/o5x4d0s9/tian-repo
                cd ~/.ssh;
                chmod 600 docker-compose.yaml;
                docker-compose up -d

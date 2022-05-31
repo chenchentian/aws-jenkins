@@ -2,7 +2,7 @@ version: '3.3'
 services:
   webapp:
     build: .
-    image: tian-repo:latest
+    image: webapp
     depends_on:
       - redis
     ports:
