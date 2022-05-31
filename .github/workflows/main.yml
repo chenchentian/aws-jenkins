@@ -71,7 +71,7 @@ jobs:
           docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
 
   deploy-to-EC2:
-    needs: publish-image-t0-ECR
+    needs: publish-image-to-ECR
     runs-on: ubuntu-latest
     steps:
       - name: Install ssh-key
