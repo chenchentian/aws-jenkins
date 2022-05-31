@@ -83,10 +83,10 @@ jobs:
           ssh-add ~/.ssh/chenchentian.pem
           ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
 
-
-
       - name: copy docker-compose file
         run: |
+          ls
+          cd ..
           rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
 
       - name: deploy
