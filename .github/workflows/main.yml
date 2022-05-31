@@ -66,7 +66,7 @@ jobs:
 
       - name: Publish docker image to ECR
         run: |
-          docker tag web:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
+          docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
           docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
 
 #      - name: Install ssh-key
