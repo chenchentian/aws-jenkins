@@ -97,7 +97,7 @@ jobs:
                docker pull public.ecr.aws/o5x4d0s9/tian-repo
                cd ~/.ssh;
                chmod 600 docker-compose.yaml;
-               docker compose up -d
+               docker-compose up -d
           "
 
       - name: Delete ssh-key
