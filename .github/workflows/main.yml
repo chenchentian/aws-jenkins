@@ -74,6 +74,8 @@ jobs:
     needs: publish-image-to-ECR
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install ssh-key
         run: |
           mkdir -p ~/.ssh
@@ -85,8 +87,7 @@ jobs:
 
       - name: copy docker-compose file
         run: |
-          ls -al
-#          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
+          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
 
       - name: deploy
         run: |
