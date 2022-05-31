@@ -1,11 +1,8 @@
 version: '3.3'
 services:
   webapp:
-    build: .
-    image: webapp
+    image: "public.ecr.aws/o5x4d0s9/tian-repo/tian-repo:latest"
     depends_on:
       - redis
-    ports:
-      - "8081:8080"
   redis:
     image: "redis:alpine"
