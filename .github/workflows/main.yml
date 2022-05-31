@@ -37,7 +37,7 @@ jobs:
         run: mvn install
 
   publish-image:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build
     steps:
       - uses: actions/checkout@v3
@@ -59,16 +59,15 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "ap-southeast-1"
+          aws-region: "us-east-1"
 
       - name: Login to ECR
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Publish docker image to ECR
         run: |
-          docker tag webapp:latest 120341968249.dkr.ecr.ap-southeast-1.amazonaws.com/tian-repo:latest
-          docker push 120341968249.dkr.ecr.ap-southeast-1.amazonaws.com/tian-repo:latest
-
+          docker tag web:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
+          docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
 
 #      - name: Install ssh-key
 #        run: |
