@@ -94,7 +94,7 @@ jobs:
           cd ~/.ssh
           chmod 600  chenchentian.pem
           ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
-               docker pull public.ecr.aws/o5x4d0s9/tian-repo
+               docker pull public.ecr.aws/o5x4d0s9/tian-repo:latest
                cd ~/.ssh;
                chmod 600 docker-compose.yaml;
                docker-compose up -d
