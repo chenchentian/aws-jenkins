@@ -85,9 +85,10 @@ jobs:
 
       - name: copy docker-compose file
         run: |
-          ls
+          ls -al
           cd ..
-          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
+          ls -al
+#          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
 
       - name: deploy
         run: |
