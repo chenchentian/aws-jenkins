@@ -18,7 +18,7 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, X64, aws]
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -26,79 +26,5 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: Set up java
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      # Runs a set of commands using the runners shell
-      - name: build
-        run: mvn install
-
-  publish-image-to-ECR:
-    runs-on: ubuntu-18.04
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Set up java
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-
-      - name: build
-        run: mvn install
-
-      - name: Build docker image
-        run: docker build -t webapp .
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@13d241b293754004c80624b5567555c4a39ffbe3
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
-
-      - name: Login to ECR
-        uses: aws-actions/amazon-ecr-login@v1
-
-      - name: Publish docker image to ECR
-        run: |
-          aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/o5x4d0s9
-          docker tag webapp:latest public.ecr.aws/o5x4d0s9/tian-repo:latest
-          docker push public.ecr.aws/o5x4d0s9/tian-repo:latest
-
-  deploy-to-EC2:
-    needs: publish-image-to-ECR
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Install ssh-key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{secrets.SSH_KEY}}" > ~/.ssh/chenchentian.pem
-          chmod 600 ~/.ssh/chenchentian.pem
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/chenchentian.pem
-          ssh-keyscan -H "${{ secrets.TARGET_SERVER }}" >> ~/.ssh/known_hosts
-
-      - name: copy docker-compose file
-        run: |
-          rsync -e "ssh -i ~/.ssh/chenchentian.pem" -v docker-compose.yaml ${{ secrets.USER }}@${{ secrets.TARGET_SERVER }}:~/.ssh
-
-      - name: deploy
-        run: |
-          cd ~/.ssh
-          chmod 600  chenchentian.pem
-          ssh  -i "chenchentian.pem" ${{secrets.USER}}@${{secrets.TARGET_SERVER}} "
-               docker pull public.ecr.aws/o5x4d0s9/tian-repo:latest
-               cd ~/.ssh;
-               chmod 600 docker-compose.yaml;
-               docker-compose up -d
-          "
-
-      - name: Delete ssh-key
-        run: rm ~/.ssh/chenchentian.pem
+      - name: test
+        run: ls
